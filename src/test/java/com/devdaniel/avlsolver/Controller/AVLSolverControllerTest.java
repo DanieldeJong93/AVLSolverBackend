@@ -26,7 +26,7 @@ public class AVLSolverControllerTest {
     }
 
     @Test
-    public void testSolveWithCorrectGivenAnswers () {
+    public void testExamineWithCorrectGivenAnswers () {
         QuestionRequest questionRequest = prepareGoodQuestion();
 
         GivenAnswerModel solved = this.avlSolverController.examine(questionRequest);
@@ -37,7 +37,7 @@ public class AVLSolverControllerTest {
     }
 
     @Test
-    public void testSolveWithNoAnswersGiven () {
+    public void testExamineWithNoAnswersGiven () {
         QuestionModel questionModel = new QuestionModel(new NodeModel(1), new int [] {5,2,3});
         GivenAnswerModel givenAnswerModel = new GivenAnswerModel();
 
@@ -45,6 +45,19 @@ public class AVLSolverControllerTest {
 
         Assert.assertEquals(0, solved.getSteps().size());
     }
+
+    @Test
+    public void testSolveWithStartValue () {
+        QuestionModel questionModel = new QuestionModel(new NodeModel(1), new int [] {5,2,3});
+
+        NodeModel nodeModel = this.avlSolverController.solve(questionModel);
+
+        Assert.assertEquals(2, nodeModel.getValue());
+        Assert.assertEquals(1, nodeModel.getLeftChild().getValue());
+        Assert.assertEquals(5, nodeModel.getRightChild().getValue());
+        Assert.assertEquals(3, nodeModel.getRightChild().getLeftChild().getValue());
+    }
+
 
     public static QuestionRequest prepareGoodQuestion () {
         return getQuestionRequest(1, 3);

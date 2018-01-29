@@ -346,6 +346,6 @@ public class AVLTreeLogicTest {
         NodeModel left = new NodeModel (1, null, null);
         NodeModel root = new NodeModel (2, left, right);
 
-        Assert.assertEquals(root, logic.balanceTree(root));
+        Assert.assertTrue(logic.equals(root, logic.balanceTree(root)));
     }
 }

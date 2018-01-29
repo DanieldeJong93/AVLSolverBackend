@@ -1,4 +1,4 @@
-package com.devdaniel.avlsolver.Handler;
+package com.devdaniel.avlsolver.Service;
 
 
 import com.devdaniel.avlsolver.AVLTreeLogic;
@@ -7,11 +7,11 @@ import com.devdaniel.avlsolver.Model.GivenAnswerModel;
 import com.devdaniel.avlsolver.Model.NodeModel;
 import com.devdaniel.avlsolver.Model.QuestionModel;
 
-public class AutomaticExaminationHandler {
+public class AVLService {
     private AVLTreeLogic logic;
     private int lastStep = 0;
 
-    public AutomaticExaminationHandler() {
+    public AVLService() {
         this.logic = new AVLTreeLogic();
     }
 
@@ -41,6 +41,16 @@ public class AutomaticExaminationHandler {
         }
 
         return givenAnswerModel;
+    }
+
+    public NodeModel solve (QuestionModel questionModel) {
+        NodeModel nodeModel = questionModel.getTree();
+
+        for (int num : questionModel.getSteps()) {
+            nodeModel = logic.balanceTree(logic.addNode(nodeModel, new NodeModel(num)));
+        }
+
+        return nodeModel;
     }
 
     /**

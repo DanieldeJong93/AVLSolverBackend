@@ -1,4 +1,4 @@
-package com.devdaniel.avlsolver.Handler;
+package com.devdaniel.avlsolver.Service;
 
 import com.devdaniel.avlsolver.AVLTreeLogic;
 import com.devdaniel.avlsolver.Model.AnswerStepModel;
@@ -18,7 +18,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AutomaticExaminationHandlerTest {
+public class AVLServiceTest {
 
     @Mock
     private QuestionModel questionModel;
@@ -27,12 +27,12 @@ public class AutomaticExaminationHandlerTest {
 
     private NodeModel beginTree;
 
-    private AutomaticExaminationHandler automaticExaminationHandler;
+    private AVLService avlService;
     private AVLTreeLogic logic;
 
     @Before
     public void setup () {
-        this.automaticExaminationHandler = new AutomaticExaminationHandler();
+        this.avlService = new AVLService();
         this.logic = new AVLTreeLogic();
         this.beginTree = new NodeModel(3,
                 new NodeModel(1, null, null),
@@ -45,7 +45,7 @@ public class AutomaticExaminationHandlerTest {
         when(questionModel.getSteps()).thenReturn(new int[]{2,5});
         prepareCorrectGivenAnswer();
 
-        automaticExaminationHandler.examine(questionModel, givenAnswerModel);
+        avlService.examine(questionModel, givenAnswerModel);
 
         Assert.assertEquals(1, givenAnswerModel.getSteps().get(0).getCorrectStep());
         Assert.assertTrue(logic.equals(givenAnswerModel.getSteps().get(0).getCorrectAnswer(), givenAnswerModel.getSteps().get(0).getGivenStep()));
@@ -59,7 +59,7 @@ public class AutomaticExaminationHandlerTest {
         when(questionModel.getSteps()).thenReturn(new int[]{2,5});
         prepareSecondWrongGivenAnswer();
 
-        automaticExaminationHandler.examine(questionModel, givenAnswerModel);
+        avlService.examine(questionModel, givenAnswerModel);
 
         Assert.assertEquals(1, givenAnswerModel.getSteps().get(0).getCorrectStep());
         Assert.assertTrue(logic.equals(givenAnswerModel.getSteps().get(0).getCorrectAnswer(), givenAnswerModel.getSteps().get(0).getGivenStep()));
@@ -73,7 +73,7 @@ public class AutomaticExaminationHandlerTest {
         when(questionModel.getSteps()).thenReturn(new int[]{2,5});
         prepareFirstWrongGivenAnswerButIsAVL();
 
-        automaticExaminationHandler.examine(questionModel, givenAnswerModel);
+        avlService.examine(questionModel, givenAnswerModel);
 
         Assert.assertEquals(-1, givenAnswerModel.getSteps().get(0).getCorrectStep());
         Assert.assertFalse(logic.equals(givenAnswerModel.getSteps().get(0).getCorrectAnswer(), givenAnswerModel.getSteps().get(0).getGivenStep()));
@@ -87,7 +87,7 @@ public class AutomaticExaminationHandlerTest {
         when(questionModel.getSteps()).thenReturn(new int[]{2,5});
         prepareFirstWrongGivenAnswerAndIsNoAVL();
 
-        automaticExaminationHandler.examine(questionModel, givenAnswerModel);
+        avlService.examine(questionModel, givenAnswerModel);
 
         Assert.assertEquals(-1, givenAnswerModel.getSteps().get(0).getCorrectStep());
         Assert.assertFalse(logic.equals(givenAnswerModel.getSteps().get(0).getCorrectAnswer(), givenAnswerModel.getSteps().get(0).getGivenStep()));
@@ -101,7 +101,7 @@ public class AutomaticExaminationHandlerTest {
         when(questionModel.getSteps()).thenReturn(new int[]{2,5});
         prepareCorrectSecondGivenAnswer();
 
-        automaticExaminationHandler.examine(questionModel, givenAnswerModel);
+        avlService.examine(questionModel, givenAnswerModel);
 
         Assert.assertEquals(1, givenAnswerModel.getSteps().get(0).getCorrectStep());
         Assert.assertTrue(logic.equals(givenAnswerModel.getSteps().get(0).getCorrectAnswer(), givenAnswerModel.getSteps().get(0).getGivenStep()));
@@ -115,7 +115,7 @@ public class AutomaticExaminationHandlerTest {
         when(questionModel.getSteps()).thenReturn(new int[]{2,4,6});
         prepareCorrectSecondGivenAnswerNotGiven();
 
-        automaticExaminationHandler.examine(questionModel, givenAnswerModel);
+        avlService.examine(questionModel, givenAnswerModel);
 
         Assert.assertEquals(1, givenAnswerModel.getSteps().get(0).getCorrectStep());
         Assert.assertTrue(logic.equals(givenAnswerModel.getSteps().get(0).getCorrectAnswer(), givenAnswerModel.getSteps().get(0).getGivenStep()));
@@ -132,7 +132,7 @@ public class AutomaticExaminationHandlerTest {
         when(questionModel.getSteps()).thenReturn(new int[]{2,4,6});
         prepareCorrectSecondGivenAnswerNotGivenThirdIsWrong();
 
-        automaticExaminationHandler.examine(questionModel, givenAnswerModel);
+        avlService.examine(questionModel, givenAnswerModel);
 
         Assert.assertEquals(1, givenAnswerModel.getSteps().get(0).getCorrectStep());
         Assert.assertTrue(logic.equals(givenAnswerModel.getSteps().get(0).getCorrectAnswer(), givenAnswerModel.getSteps().get(0).getGivenStep()));
@@ -140,6 +140,30 @@ public class AutomaticExaminationHandlerTest {
         Assert.assertEquals(-1, givenAnswerModel.getSteps().get(1).getCorrectStep());
         Assert.assertFalse(logic.equals(givenAnswerModel.getSteps().get(1).getCorrectAnswer(), givenAnswerModel.getSteps().get(1).getGivenStep()));
         Assert.assertEquals(6, logic.size(givenAnswerModel.getSteps().get(1).getGivenStep()));
+    }
+
+    @Test
+    public void testSolveTreeWithoutStartValue () {
+        when(questionModel.getSteps()).thenReturn(new int[]{2,4,6});
+        NodeModel nodeModel = avlService.solve(questionModel);
+
+        Assert.assertEquals(4, nodeModel.getValue());
+        Assert.assertEquals(2, nodeModel.getLeftChild().getValue());
+        Assert.assertEquals(6, nodeModel.getRightChild().getValue());
+    }
+
+    @Test
+    public void testSolveTreeWithStartValue () {
+        when(questionModel.getTree()).thenReturn(beginTree);
+        when(questionModel.getSteps()).thenReturn(new int[]{2,5,6});
+        NodeModel nodeModel = avlService.solve(questionModel);
+
+        Assert.assertEquals(3, nodeModel.getValue());
+        Assert.assertEquals(1, nodeModel.getLeftChild().getValue());
+        Assert.assertEquals(5, nodeModel.getRightChild().getValue());
+        Assert.assertEquals(6, nodeModel.getRightChild().getRightChild().getValue());
+        Assert.assertEquals(4, nodeModel.getRightChild().getLeftChild().getValue());
+        Assert.assertEquals(2, nodeModel.getLeftChild().getRightChild().getValue());
     }
 
     /**

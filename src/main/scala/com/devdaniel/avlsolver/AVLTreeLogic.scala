@@ -1,6 +1,6 @@
-package com.devdaniel.avlsolver;
+package com.devdaniel.avlsolver
 
-import com.devdaniel.avlsolver.Model.NodeModel;
+import com.devdaniel.avlsolver.Model.NodeModel
 
 class AVLTreeLogic {
 
@@ -190,7 +190,12 @@ class AVLTreeLogic {
                     node.getRightChild))
             }
         }
-      case _ => node
+      case _ =>
+        node match {
+          case n: NodeModel => new NodeModel(n.getValue, balanceTree(n.getLeftChild), balanceTree(n.getRightChild))
+          case _ => node
+        }
+
     }
   }
 }
