@@ -53,11 +53,11 @@ public class AvlSolverIT {
     }
 
     @Test
-    public void testSolveAVLTreeWithoutMistake () throws Exception {
+    public void testExamineAVLTreeWithoutMistake () throws Exception {
         String jsonString = asJsonString(AVLSolverControllerTest.prepareGoodQuestion());
 
         MvcResult result = mockMvc.perform(
-                post("/avl/solve")
+                post("/avl/examine")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
                 )
@@ -68,11 +68,11 @@ public class AvlSolverIT {
     }
 
     @Test
-    public void testSolveAVLTreeWithMistake () throws Exception {
+    public void testExamineAVLTreeWithMistake () throws Exception {
         String jsonString = asJsonString(AVLSolverControllerTest.prepareBadQuestion());
 
         MvcResult result = mockMvc.perform(
-                post("/avl/solve")
+                post("/avl/examine")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonString)
         )

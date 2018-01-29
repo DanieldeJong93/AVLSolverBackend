@@ -29,7 +29,7 @@ public class AVLSolverControllerTest {
     public void testSolveWithCorrectGivenAnswers () {
         QuestionRequest questionRequest = prepareGoodQuestion();
 
-        GivenAnswerModel solved = this.avlSolverController.solve(questionRequest);
+        GivenAnswerModel solved = this.avlSolverController.examine(questionRequest);
 
         for (AnswerStepModel answerStepModel : solved.getSteps()) {
             Assert.assertEquals(1, answerStepModel.getCorrectStep());
@@ -41,7 +41,7 @@ public class AVLSolverControllerTest {
         QuestionModel questionModel = new QuestionModel(new NodeModel(1), new int [] {5,2,3});
         GivenAnswerModel givenAnswerModel = new GivenAnswerModel();
 
-        GivenAnswerModel solved = this.avlSolverController.solve(new QuestionRequest(questionModel, givenAnswerModel));
+        GivenAnswerModel solved = this.avlSolverController.examine(new QuestionRequest(questionModel, givenAnswerModel));
 
         Assert.assertEquals(0, solved.getSteps().size());
     }

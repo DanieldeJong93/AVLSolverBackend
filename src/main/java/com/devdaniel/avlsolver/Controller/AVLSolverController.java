@@ -23,12 +23,12 @@ public class AVLSolverController {
     }
 
     @RequestMapping(
-            value = "/solve",
+            value = "/examine",
             method = RequestMethod.POST,
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     @ResponseBody
-    public GivenAnswerModel solve (@RequestBody QuestionRequest questionRequest) {
+    public GivenAnswerModel examine (@RequestBody QuestionRequest questionRequest) {
         return new AutomaticExaminationHandler().examine(questionRequest.getQuestionModel(), questionRequest.getGivenAnswerModel());
     }
 }
