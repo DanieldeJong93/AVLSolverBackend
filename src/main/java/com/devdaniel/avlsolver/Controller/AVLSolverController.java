@@ -36,6 +36,7 @@ public class AVLSolverController {
         return new AVLService().examine(questionRequest.getQuestionModel(), questionRequest.getGivenAnswerModel());
     }
 
+    @CrossOrigin
     @RequestMapping(
             value = "/solve",
             method = RequestMethod.POST,

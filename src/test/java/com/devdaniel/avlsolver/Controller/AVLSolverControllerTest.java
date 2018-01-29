@@ -1,7 +1,6 @@
 package com.devdaniel.avlsolver.Controller;
 
 import com.devdaniel.avlsolver.Model.*;
-import com.sun.istack.internal.Nullable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
