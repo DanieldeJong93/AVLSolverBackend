@@ -157,13 +157,14 @@ class AVLTreeLogic {
   def balanceTree(node: NodeModel): NodeModel = {
     balance(node) match {
       case 2 =>
-        Math.abs(balance(node.getRightChild)) match {
+        val b = balance(node.getRightChild)
+        Math.abs(b) match {
           case 2 =>
             new NodeModel(node.getValue,
               node.getLeftChild,
               balanceTree(node.getRightChild));
           case _ =>
-            balance(node.getRightChild) match {
+            b match {
               case x if x > 0 => leftRotate(node)
               case x if x < 0 =>
                 val t = rightRotate(node.getRightChild)
@@ -174,13 +175,14 @@ class AVLTreeLogic {
             }
         }
       case -2 =>
-        Math.abs(balance(node.getLeftChild)) match {
+        val b = balance(node.getLeftChild)
+        Math.abs(b) match {
           case 2 =>
             new NodeModel(node.getValue,
               balanceTree(node.getLeftChild),
               node.getRightChild);
           case _ =>
-            balance(node.getLeftChild) match {
+            b match {
               case x if x < 0 => rightRotate(node)
               case x if x > 0 =>
                 val t = leftRotate(node.getLeftChild)
@@ -192,7 +194,7 @@ class AVLTreeLogic {
         }
       case _ =>
         node match {
-          case n: NodeModel => new NodeModel(n.getValue, balanceTree(n.getLeftChild), balanceTree(n.getRightChild))
+          case _: NodeModel => new NodeModel(node.getValue, balanceTree(node.getLeftChild), balanceTree(node.getRightChild))
           case _ => node
         }
 

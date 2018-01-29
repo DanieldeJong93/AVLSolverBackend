@@ -47,7 +47,7 @@ public class AVLService {
         NodeModel nodeModel = questionModel.getTree();
 
         for (int num : questionModel.getSteps()) {
-            nodeModel = logic.balanceTree(logic.addNode(nodeModel, new NodeModel(num)));
+            nodeModel = logic.balanceTree(logic.balanceTree(logic.addNode(nodeModel, new NodeModel(num))));
         }
 
         return nodeModel;
