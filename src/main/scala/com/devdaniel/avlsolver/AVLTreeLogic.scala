@@ -159,10 +159,6 @@ class AVLTreeLogic {
       case 2 =>
         val b = balance(node.getRightChild)
         Math.abs(b) match {
-          case 2 =>
-            new NodeModel(node.getValue,
-              node.getLeftChild,
-              balanceTree(node.getRightChild));
           case _ =>
             b match {
               case x if x > 0 => leftRotate(node)
@@ -177,10 +173,6 @@ class AVLTreeLogic {
       case -2 =>
         val b = balance(node.getLeftChild)
         Math.abs(b) match {
-          case 2 =>
-            new NodeModel(node.getValue,
-              balanceTree(node.getLeftChild),
-              node.getRightChild);
           case _ =>
             b match {
               case x if x < 0 => rightRotate(node)
@@ -192,12 +184,7 @@ class AVLTreeLogic {
                     node.getRightChild))
             }
         }
-      case _ =>
-        node match {
-          case _: NodeModel => new NodeModel(node.getValue, balanceTree(node.getLeftChild), balanceTree(node.getRightChild))
-          case _ => node
-        }
-
+      case _ =>node
     }
   }
 }

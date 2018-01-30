@@ -305,41 +305,6 @@ public class AVLTreeLogicTest {
     }
 
     @Test
-    public void testLeftRotationWithLeftSideBalanceProblem () {
-        NodeModel leftLeftLeft = new NodeModel(1, null, null);
-        NodeModel leftLeft = new NodeModel(2, leftLeftLeft, null);
-        NodeModel left = new NodeModel (3, leftLeft, null);
-        NodeModel right = new NodeModel (6, null, null);
-        NodeModel root = new NodeModel (4, left, right);
-
-        NodeModel returnTree = logic.balanceTree(root);
-
-        Assert.assertEquals(root.getValue(), returnTree.getValue());
-        Assert.assertEquals(leftLeft.getValue(), returnTree.getLeftChild().getValue());
-        Assert.assertEquals(leftLeftLeft.getValue(), returnTree.getLeftChild().getLeftChild().getValue());
-        Assert.assertEquals(left.getValue(), returnTree.getLeftChild().getRightChild().getValue());
-        Assert.assertEquals(right.getValue(), returnTree.getRightChild().getValue());
-    }
-
-    @Test
-    public void testRightRotationWithRightSideBalanceProblem () {
-        AVLTreeLogic logic = new AVLTreeLogic();
-        NodeModel rightRightRight = new NodeModel (5, null, null);
-        NodeModel rightRight = new NodeModel (4, null, rightRightRight);
-        NodeModel right = new NodeModel (3, null, rightRight);
-        NodeModel left = new NodeModel (1, null, null);
-        NodeModel root = new NodeModel (2, left, right);
-
-        NodeModel returnTree = logic.balanceTree(root);
-
-        Assert.assertEquals(root.getValue(), returnTree.getValue());
-        Assert.assertEquals(left.getValue(), returnTree.getLeftChild().getValue());
-        Assert.assertEquals(rightRight.getValue(), returnTree.getRightChild().getValue());
-        Assert.assertEquals(right.getValue(), returnTree.getRightChild().getLeftChild().getValue());
-        Assert.assertEquals(rightRightRight.getValue(), returnTree.getRightChild().getRightChild().getValue());
-    }
-
-    @Test
     public void testBalanceTreeOnTreeThatIsBalanced () {
         AVLTreeLogic logic = new AVLTreeLogic();
         NodeModel right = new NodeModel (3, null, null);

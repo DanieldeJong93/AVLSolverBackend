@@ -47,10 +47,21 @@ public class AVLService {
         NodeModel nodeModel = questionModel.getTree();
 
         for (int num : questionModel.getSteps()) {
-            nodeModel = logic.balanceTree(logic.balanceTree(logic.addNode(nodeModel, new NodeModel(num))));
+            nodeModel = postOrderBalanceTree(logic.addNode(nodeModel, new NodeModel(num)));
         }
 
         return nodeModel;
+    }
+
+    private NodeModel postOrderBalanceTree (NodeModel node) {
+        if (node != null) {
+            NodeModel orderingNode = new NodeModel(node.getValue(),
+                                                    postOrderBalanceTree(node.getLeftChild()),
+                                                    postOrderBalanceTree(node.getRightChild()));
+            return logic.balanceTree(orderingNode);
+        }
+
+        return null;
     }
 
     /**
