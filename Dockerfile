@@ -1,4 +1,4 @@
-FROM maven:3.5.2-jdk-8 as BUILD
+FROM maven:3.5.2-jdk-8-alpine as BUILD
 
 COPY src /usr/src/myapp/src
 COPY pom.xml /usr/src/myapp
